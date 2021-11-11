@@ -25,8 +25,9 @@ let questions = [];
 /* Variable for the length of the quiz and the current question index */
 let lastQuestionIndex = questionNumber - 1;
 let runningQuestionIndex = 0;
-/* The Scryfall API URL */
-const fetchUrl = "https://api.scryfall.com/cards/random?legal:standard";
+/* The Scryfall API URL 
+Searches for non-split Standard legal cards.*/
+const fetchUrl = "https://api.scryfall.com/cards/random?legal:standard&&-is:split";
 /* renders the Question by changing the Inner html of the Image Question, and Choices Containers */
 function questionRender() {
     let q = questions[runningQuestionIndex];
