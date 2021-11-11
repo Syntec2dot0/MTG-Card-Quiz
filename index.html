@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title> CardQuiz </title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+
+<body>
+    <div id="container">
+        <!-- Start Quiz button -->
+        <div id="start"> Start Quiz! </div>
+        <!-- The actual Quiz Container -->
+        <div id="quiz" style="display : none">
+            <!-- The Question itself -->
+            <div id="question"></div>
+            <!-- The Image in Question -->
+            <div id="qImage"></div>
+            <!-- Container for the Multiple Choice answers -->
+            <div id="choices">
+                <div class="choice" id="A" onClick="checkAnswer('A')"></div>
+                <div class="choice" id="B" onClick="checkAnswer('B')"></div>
+                <div class="choice" id="C" onClick="checkAnswer('C')"></div>
+            </div>
+            <!-- Countdown Timer -->
+            <div id="timer">
+                <!-- The Number of seconds-->
+                <div id="counter"></div>
+                <!-- The Max Time Gauge -->
+                <div id="btimeGauge"></div>
+                <!-- The time left Gauge -->
+                <div id="timeGauge"></div>
+            </div>
+            <!-- Overall Progress -->
+            <div id="progress"></div>
+        </div>
+        <!-- The Score Container and the "Smiley Image" -->
+        <div id="scoreContainer" style="display: none"></div>
+    </div>
+    <!-- Our Code -->
+    <script src="quiz.js"></script>
+</body>
+
+</html>
