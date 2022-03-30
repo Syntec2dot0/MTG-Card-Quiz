@@ -10,10 +10,11 @@ const choiceB = document.getElementById("B");
 const choiceC = document.getElementById("C");
 const progress = document.getElementById("progress");
 const scoreContainer = document.getElementById("scoreContainer");
+const loading = document.getElementById("loading");
 /* Time to answer the question, the max Width of the countdown gauge and how many questions you want to ask */
 const questionTime = 10;
 const gaugeWidth = 150;
-const questionNumber = 3;
+const questionNumber = 5;
 /*  current time left*/
 let count = 0;
 /* The number of pixels that get filled by the second */
@@ -27,7 +28,7 @@ let lastQuestionIndex = questionNumber - 1;
 let runningQuestionIndex = 0;
 /* The Scryfall API URL 
 Searches for non-split Standard legal cards.*/
-const fetchUrl = "https://api.scryfall.com/cards/random?legal:standard&&-is:split";
+const fetchUrl = "https://api.scryfall.com/cards/random?q=legal:standard&&-is:split";
 /* renders the Question by changing the Inner html of the Image Question, and Choices Containers */
 function questionRender() {
     let q = questions[runningQuestionIndex];
@@ -103,8 +104,10 @@ start.addEventListener("click", startQuiz);
 
 /* Starts the Quiz */
 function startQuiz() {
+    start.style.display = "none";
+    loading.style.display = "block";
     getQuestions().then(function () {
-        start.style.display = "none";
+        loading.style.display = "none";
         questionRender();
         quiz.style.display = "block";
         /* renders the progress and the question for the first time */
@@ -145,22 +148,33 @@ async function getQuestions() {
         /* fetches the correct card. Saves art_cropt, artist, correct answer and  */
         const response = await fetch(fetchUrl);
         const data = await response.json();
+        await sleeper(50);
 
         /* fetches the first incorrect card and saves the name */
         const response2 = await fetch(fetchUrl);
         const data2 = await response2.json();
         incorrectNameOne = data2.name;
+        await sleeper(50);
 
         /* fetches the second incorrect card and saves the name */
         const response3 = await fetch(fetchUrl);
         const data3 = await response3.json();
         incorrectNameTwo = data3.name;
+        await sleeper(50);
 
         /* creates a random number for the correct answer  and saves the art_crop artist name and the correct name of the card*/
+        if (data.image_uris.art_crop == "undefined" || data.artist == "undefined") {
+            i--;
+            console.log("Some property of the card" + data.name + "was undefined. Trying different cards.");
+            continue;
+        }
         correct = Math.floor(Math.random() * 3 + 1);
+        correctName = data.name;
+        console.log(correctName);
+        console.log(data);
         img = data.image_uris.art_crop;
         artist = data.artist;
-        correctName = data.name;
+
         /* Builds the current question with the question, the img and the artist*/
         let questionToAppend = {
             question: "What's this card?",
@@ -222,14 +236,15 @@ async function getQuestions() {
                     choiceA: incorrectNameOne
                 };
             }
-            //questionToAppend = Object.assign(wrongChoices);
         }
+        /* Object.assign() assigns the combination of the specified lists at the specified index of the question container */
         questions[i] = Object.assign(questionToAppend, correctChoice, wrongChoices);
     }
 };
-/* sleeper function that delays fetch requests. .then(sleeper(x)) */
-function sleeper(ms) {
+/* sleeper function that delays fetch requests. .then(sleeper(x)) or await sleeper(ms)
+its promise based so the code will stop until the promise is resolved*/
+async function sleeper(ms) {
     return function (x) {
         return new Promise(resolve => setTimeout(() => resolve(x), ms));
     };
-}
+};
