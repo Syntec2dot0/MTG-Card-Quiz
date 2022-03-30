@@ -162,18 +162,24 @@ async function getQuestions() {
         incorrectNameTwo = data3.name;
         await sleeper(50);
 
-        /* creates a random number for the correct answer  and saves the art_crop artist name and the correct name of the card*/
+        /* creates a random number for the correct answer  and saves the art_crop artist name and the correct name of the card
         if (data.image_uris.art_crop == "undefined" || data.artist == "undefined") {
             i--;
             console.log("Some property of the card" + data.name + "was undefined. Trying different cards.");
             continue;
-        }
+        } */
         correct = Math.floor(Math.random() * 3 + 1);
         correctName = data.name;
         console.log(correctName);
         console.log(data);
-        img = data.image_uris.art_crop;
-        artist = data.artist;
+        if (data.layout == "transform") {
+            img = data.card_faces[0].image_uris.art_crop;
+            artist = data.card_faces[0].artist;
+        } else {
+            img = data.image_uris.art_crop;
+            artist = data.artist;
+        }
+
 
         /* Builds the current question with the question, the img and the artist*/
         let questionToAppend = {
