@@ -33,26 +33,6 @@ body {
     color: lightseagreen;
 }
 
-#restart {
-    font-size: 1.5em;
-    font-weight: bolder;
-    word-break: break-all;
-    width: 100px;
-    height: 150px;
-    border: 2px solid lightgrey;
-    text-align: center;
-    cursor: pointer;
-    position: absolute;
-    left: 300px;
-    top: 150px;
-    color: lightgrey;
-}
-
-#restart:hover {
-    border: 3px solid lightseagreen;
-    color: lightseagreen;
-}
-
 #qImage {
     width: 200px;
     height: 200px;
@@ -165,7 +145,7 @@ body {
 
 #scoreContainer img {
     position: absolute;
-    top: 100px;
+    top: 75px;
     left: 325px;
 }
 
@@ -174,9 +154,29 @@ body {
     display: block;
     width: 59px;
     height: 59px;
-    top: 130px;
+    top: 105px;
     left: 325px;
     font-size: 1.5em;
     font-weight: bold;
     text-align: center;
+}
+
+#restart {
+    font-size: 1.5em;
+    font-weight: bolder;
+    word-break: break-all;
+    width: 300px;
+    height: 75px;
+    border: 2px solid lightgrey;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    left: 200px;
+    top: 210px;
+    color: black;
+}
+
+#restart:hover {
+    border: 3px solid lightseagreen;
+    color: lightseagreen;
 }
