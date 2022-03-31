@@ -129,8 +129,8 @@ function startQuiz() {
 };
 
 function scoreRender() {
+    scoreContainer.innerHTML = "<div id=\"restart\" onClick=\"startQuiz()\"> Restart Quiz!</div>";
     scoreContainer.style.display = "block";
-    restart.style.display = "block";
     const scorePerCent = Math.round(100 * score / questions.length);
     let img = (scorePerCent >= 80) ? "img/5.png" :
         (scorePerCent >= 60) ? "img/4.png" :
