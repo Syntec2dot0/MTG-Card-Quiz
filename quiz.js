@@ -11,6 +11,7 @@ const choiceC = document.getElementById("C");
 const progress = document.getElementById("progress");
 const scoreContainer = document.getElementById("scoreContainer");
 const loading = document.getElementById("loading");
+const restart = document.getElementById("restart");
 /* Time to answer the question, the max Width of the countdown gauge and how many questions you want to ask */
 const questionTime = 10;
 const gaugeWidth = 150;
@@ -20,15 +21,15 @@ let count = 0;
 /* The number of pixels that get filled by the second */
 const gaugeProgressUnit = gaugeWidth / questionTime;
 let TIMER;
-let score = 0;
+let score;
 /* The question image answer array */
 let questions = [];
 /* Variable for the length of the quiz and the current question index */
 let lastQuestionIndex = questionNumber - 1;
-let runningQuestionIndex = 0;
+let runningQuestionIndex;
 /* The Scryfall API URL 
-Searches for non-split Standard legal cards.*/
-const fetchUrl = "https://api.scryfall.com/cards/random?q=legal:standard&&-is:split";
+Searches for non-split historic legal cards.*/
+const fetchUrl = "https://api.scryfall.com/cards/random?q=legal:historic&&-is:split";
 /* renders the Question by changing the Inner html of the Image Question, and Choices Containers */
 function questionRender() {
     let q = questions[runningQuestionIndex];
@@ -42,6 +43,7 @@ function questionRender() {
 /* renders the progress bar */
 function progressRender() {
     /* one Iteration for each Question */
+    progress.innerHTML = "";
     for (let qIndex = 0; qIndex <= lastQuestionIndex; qIndex++) {
         /* Creates an object in the Progress container which the prog Class and the id of the Question Index */
         progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
@@ -100,10 +102,15 @@ function checkAnswer(answer) {
 };
 /* adds a listener that checks if start quiz has been clicked */
 start.addEventListener("click", startQuiz);
-
+restart.addEventListener("click", startQuiz);
 
 /* Starts the Quiz */
 function startQuiz() {
+    console.log("Starting Quiz");
+    score = 0;
+    runningQuestionIndex = 0;
+    restart.style.display = "none";
+    scoreContainer.style.display = "none";
     start.style.display = "none";
     loading.style.display = "block";
     getQuestions().then(function () {
@@ -123,6 +130,7 @@ function startQuiz() {
 
 function scoreRender() {
     scoreContainer.style.display = "block";
+    restart.style.display = "block";
     const scorePerCent = Math.round(100 * score / questions.length);
     let img = (scorePerCent >= 80) ? "img/5.png" :
         (scorePerCent >= 60) ? "img/4.png" :
@@ -130,9 +138,10 @@ function scoreRender() {
                 (scorePerCent >= 20) ? "img/2.png" :
                     "img/1.png";
 
-    scoreContainer.innerHTML = "<img src=" + img + ">"
+    scoreContainer.innerHTML += "<img src=" + img + ">"
     scoreContainer.innerHTML += "<p>" + scorePerCent + "%</p>";
 };
+
 
 async function getQuestions() {
     let img;
@@ -172,7 +181,7 @@ async function getQuestions() {
         correctName = data.name;
         console.log(correctName);
         console.log(data);
-        if (data.layout == "transform") {
+        if (data.layout == "transform" || data.layout == "modal_dfc") {
             img = data.card_faces[0].image_uris.art_crop;
             artist = data.card_faces[0].artist;
         } else {
