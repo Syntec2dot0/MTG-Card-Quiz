@@ -15,7 +15,7 @@ const restart = document.getElementById("restart");
 /* Time to answer the question, the max Width of the countdown gauge and how many questions you want to ask */
 const questionTime = 10;
 const gaugeWidth = 150;
-const questionNumber = 5;
+const questionNumber = 10;
 /*  current time left*/
 let count = 0;
 /* The number of pixels that get filled by the second */
