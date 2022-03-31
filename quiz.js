@@ -69,7 +69,8 @@ function counterRender() {
         count++;
     } else {
         /* If the time runs out the answer counts as wrong  */
-        count = 0;
+        document.getElementById(questions[runningQuestionIndex].correct).style.backgroundColor = "red";
+        await sleeper(300);
         updateProgress(false);
         /* Is there still a question left? if yes render the new question. If not stop the Interval function and render the final score*/
         if (runningQuestionIndex < lastQuestionIndex) {
@@ -85,6 +86,7 @@ function counterRender() {
 function checkAnswer(answer) {
     /* Compares the answer var to the specified entry in the question array */
     if (questions[runningQuestionIndex].correct == answer) {
+        console.log(questions[runningQuestionIndex].correct)
         score++;
         updateProgress(true)
     } else {
