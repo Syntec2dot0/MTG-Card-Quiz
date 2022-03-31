@@ -112,6 +112,7 @@ function startQuiz() {
     restart.style.display = "none";
     scoreContainer.style.display = "none";
     start.style.display = "none";
+    quiz.style.display = "none";
     loading.style.display = "block";
     getQuestions().then(function () {
         loading.style.display = "none";
